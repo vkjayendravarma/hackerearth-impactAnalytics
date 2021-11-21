@@ -1,0 +1,18 @@
+.navbar-brand{
+    color: #000;
+}
+.navbar-items{
+    display: inline;
+}
+.navbar-nav{
+    display: inline;
+    list-style: none;
+    padding-left: 0px;
+
+}
+
+.nav-item{
+    display: inline;
+    padding: 1em 2em;
+    color: #000000de;
+}
