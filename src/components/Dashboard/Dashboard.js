@@ -1,86 +1,100 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
-import { getCandidateData } from "../../services/http.service";
 import CandidateCard from '../CandidateCard/CandidateCard';
 
 import "./Dashboard.css"
 
-class Dashboard extends Component {
+function Dashboard() {
+  let state = { candidates: [], filteredData: [] }
 
-  constructor() {
-    super()
-    this.state = { candidates: [], search: "", filteredData: [] }
+  let candidates = []
+  let filteredData = []
 
-    this.search = this.search.bind(this);
-    this.searchFormControl = this.searchFormControl.bind(this);
-  }
+  // let [candidates, setcandidates] = useState(null)
+  // let [filteredData, setfilteredData] = useState(null)
 
-  componentDidMount() {
-    getCandidateData().then(res => {
-      console.log(res.data);
-      this.setState({ candidates: res.data })
-      this.setState({ filteredData: res.data })
+  let [reRender, setReRender] = useState(false)
+  // let [renederFetchData, setRenderFetchData] = useState(true)
 
-    }).catch(err => {
-      console.error(err);
+  const [searchField, setSearchField] = useState("");
+  let { type } = useParams()
+
+  useEffect(() => {
+    if (reRender) {
+      setReRender(false)
+    }
+    console.log(filteredData);
+  })
+
+
+  let data = JSON.parse(window.localStorage.getItem("data"))
+  candidates = data
+  if (type == "all") {
+    filteredData = data
+  } else if (type == "pool") {
+    filteredData = []
+    filteredData = candidates.filter(candidate => {
+      return candidate.status === undefined
     })
   }
-
-
-  searchFormControl(event) {
-    this.setState({ search: event.target.value });
-    this.search(event)
-  }
-
-  search(event) {
-    let data = this.state.candidates
-    if (this.state.search == ""){
-      this.setState({ filteredData: data })
-    }
-    event.preventDefault();
-    console.log(this.state.search);
-
-    
-
-    let filteredData = data.filter(candidate => String((candidate.name)).toLocaleLowerCase().includes(String(this.state.search).toLocaleLowerCase()))
-    this.setState({ filteredData: filteredData })
+   else {
+    filteredData = []
+    filteredData = candidates.filter(candidate => {
+      return candidate.status === type
+    })
     console.log(filteredData);
+
   }
 
 
-  render() {
-    let { filteredData } = this.state
-    return (
-      <div className="dashboard">
-        <div className="container">
-          <div className="searchFormFieldWrapper" align="center">
-            <form className="searchForm" onSubmit={this.search}>
-              <label>
-                search:
-                <input type="text" name="name" className="searchFormField" value={this.state.search} onChange={this.searchFormControl} />
-              </label>
-              <input type="submit" value="Submit" />
-            </form>
-          </div>
+  const search = (event) => {
+    event.preventDefault();
+
+    console.log(searchField);
+
+    filteredData = []
+
+    if (searchField === "") {
+      filteredData = candidates
+      return
+    }
+    filteredData = candidates.filter(candidate => String((candidate.name)).toLocaleLowerCase().includes(String(searchField).toLocaleLowerCase()))
+
+    console.log(filteredData);
+    // setReRender(true)
+  }
 
 
 
-          <h1 className="title">List of candidates</h1>
-          <div className="row">
-            {
-              filteredData.length ?
-                filteredData.map(candidate => {
-                  if (true)
-                    return <div className="col" key={candidate.id} align="center"> <CandidateCard candidate={candidate}></CandidateCard> </div>
-                  return ""
-                }) :
-                null
-            }
-          </div>
+
+  return (
+    <div className="dashboard">
+      <div className="container">
+        <div className="searchFormFieldWrapper" align="center">
+          <form className="searchForm" onSubmit={search}>
+            <label>
+              search:
+              <input type="text" name="name" className="searchFormField" value={searchField} onChange={e => setSearchField(e.target.value)} />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        <h1 className="title">List of candidates</h1>
+        <div className="row">
+          {
+            filteredData.length ?
+              filteredData.map(candidate => {
+                if (true)
+                  return <div className="col" key={candidate.id} align="center"> <CandidateCard candidate={candidate}></CandidateCard> </div>
+                return ""
+              }) :
+              null
+          }
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Dashboard;

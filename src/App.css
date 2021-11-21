@@ -20,3 +20,9 @@
 .tdec{
   text-decoration: unset !important;
 }
+
+/* margine */
+
+.mrr{
+  margin-right: 1em;
+}

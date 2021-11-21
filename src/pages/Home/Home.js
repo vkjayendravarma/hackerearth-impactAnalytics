@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Dashboard from '../../components/Dashboard/Dashboard';
+import { Outlet } from 'react-router';
 import NavBar from '../../components/NavBar/NavBar';
 import { getCandidateData } from "../../services/http.service";
 
@@ -9,13 +9,12 @@ import { getCandidateData } from "../../services/http.service";
 class Home extends Component {
     constructor() {
         super()
-        this.state = { candidates: [] }
+        this.state = {  }
     }
 
     componentDidMount() {
         getCandidateData().then(res => {
-            console.log(res.data);
-            this.setState({ candidates: res.data })
+            window.localStorage.setItem("data", JSON.stringify(res.data))
         }).catch(err => {
             console.error(err);
         })
@@ -23,7 +22,7 @@ class Home extends Component {
     render() {
         return <div>
             <NavBar />
-            <Dashboard />
+            <Outlet />
 
         </div>;
     }
