@@ -1,26 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import "./NavBar.css"
 
 function NavBar() {
     return ( <nav className="navbar">
     <div className="container-fluid">
-        <Link className="navbar-brand fc(000) fs(36) tdec" to="/">Navbar</Link>                  
+        <NavLink className="navbar-brand fc(000) fs(36) tdec" to="/">Navbar</NavLink>                  
         <div className="navbar-items" >
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard/all">All</Link>
+                    <NavLink className="nav-link" to="/dashboard/all">All</NavLink>
                     
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard/pool">Pool</Link>
+                    <NavLink className="nav-link" to="/dashboard/pool">Pool</NavLink>
                     
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard/shortlisted">Shortlisted</Link>
+                    <NavLink className="nav-link" to="/dashboard/shortlisted">Shortlisted</NavLink>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard/rejected">Rejected</Link>
+                    <NavLink className="nav-link" to="/dashboard/rejected">Rejected</NavLink>
                 </li>
               
             </ul>

@@ -13,13 +13,12 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} redirect to="dashboard" >
-            <Route path="dashboard/:type" element={<Dashboard />}  redirect to="all">
-            
-            </Route>
-            <Route path="candidate/:id" element={<CandidateProfile />} >
-            
-            </Route>
+          <Route path="/" element={<Home />} redirect to="dashboard/all" >
+            <Route path="dashboard/all" element={<Dashboard type="all"></Dashboard>}></Route>
+            <Route path="dashboard/pool" element={<Dashboard type="pool"></Dashboard>}></Route>
+            <Route path="dashboard/shortlisted" element={<Dashboard type="shortlisted"></Dashboard>}></Route>
+            <Route path="dashboard/rejected" element={<Dashboard type="rejected"></Dashboard>}></Route>
+            <Route path="dashboard/candidate/:id" element={<CandidateProfile />} ></Route>
           </Route>
 
         </Routes>

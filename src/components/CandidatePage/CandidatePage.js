@@ -35,7 +35,7 @@ function CandidateProfile(params) {
         console.log("reject");
         data[indexOfCandidate].status = "rejected"
 
-        console.log(data[indexOfCandidate]);
+        console.log(data);
         window.localStorage.setItem("data", JSON.stringify(data))
         setReRender(true)
     }
@@ -43,7 +43,7 @@ function CandidateProfile(params) {
         if(reRender){
             setReRender(false)
         }        
-    })
+    }, [reRender])
 
     return (
         <div align="center">

@@ -19,7 +19,7 @@ class CandidateCard extends Component {
                     <div className="candidateInfo">
                         <p className="candidateId wdt-fit-content"> {candidate.id}</p>
                         <h5 className="candidateName wdt-fit-content">Name: {candidate.name} </h5>
-                        <NavLink to={`/candidate/${candidate.id}`}> <button>View</button> </NavLink>
+                        <NavLink to={`/dashboard/candidate/${candidate.id}`}> <button>View</button> </NavLink>
                     </div>
 
                 </div>

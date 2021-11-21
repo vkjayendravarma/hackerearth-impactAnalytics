@@ -6,26 +6,21 @@ import { getCandidateData } from "../../services/http.service";
 
 
 // import CandidateCard from '../CandidateCard/CandidateCard';
-class Home extends Component {
-    constructor() {
-        super()
-        this.state = {  }
-    }
 
-    componentDidMount() {
-        getCandidateData().then(res => {
-            window.localStorage.setItem("data", JSON.stringify(res.data))
-        }).catch(err => {
-            console.error(err);
-        })
-    }
-    render() {
-        return <div>
+function Home() {
+    getCandidateData().then(res => {
+        window.localStorage.setItem("data", JSON.stringify(res.data))
+    }).catch(err => {
+        console.error(err);
+    })
+    return (
+        <div>
             <NavBar />
             <Outlet />
-
-        </div>;
-    }
+        </div>
+    );
 }
+
+
 
 export default Home;
