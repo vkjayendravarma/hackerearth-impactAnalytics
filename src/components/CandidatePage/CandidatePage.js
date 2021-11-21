@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-// import React, { Component } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function CandidateProfile(params) {
+    let navigate = useNavigate();
+
     let state = {}
     state.id = null
 
@@ -23,21 +25,21 @@ function CandidateProfile(params) {
             break
         }
     }
+
+    const redirectHome = () => {
+        console.log("navigae");
+        navigate("/dashboard/all",{ replace: true })
+    }
     const shortlist = () => {
         data[indexOfCandidate].status = "shortlisted"
         window.localStorage.setItem("data", JSON.stringify(data))
-        setReRender(true)
+        redirectHome()
     }
 
     const rejected = () => {
-        console.log(indexOfCandidate);
-        
-        console.log("reject");
         data[indexOfCandidate].status = "rejected"
-
-        console.log(data);
         window.localStorage.setItem("data", JSON.stringify(data))
-        setReRender(true)
+        redirectHome()
     }
     useEffect(() => {
         if(reRender){

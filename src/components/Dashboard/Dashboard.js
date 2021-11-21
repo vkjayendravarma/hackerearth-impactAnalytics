@@ -1,6 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router';
-
 import CandidateCard from '../CandidateCard/CandidateCard';
 
 import "./Dashboard.css"
@@ -18,56 +15,49 @@ class Dashobard extends Component {
 
   setupSpecificProcessedData() {
     let data = JSON.parse(window.localStorage.getItem("data"))
-    this.setState({ candidates: data })
-    this.setState({ type: this.props.type })
+    let processed = []
     if (this.props.type == "all") {
-      this.setState({ filteredData: data })
-    } else if (this.props.type == "pool") {
-      let processed = []
+      return data
+    }
+    if (this.props.type == "pool") {
       processed = this.state.candidates.filter(candidate => {
         return candidate.status === undefined
       })
-      this.setState({ filteredData: processed })
+      return processed
     }
-    else {
-      let processed = []
-      processed = this.state.candidates.filter(candidate => {
-        return candidate.status === this.props.type
-      })
-      this.setState({ filteredData: processed })
-    }
+
+    processed = this.state.candidates.filter(candidate => {
+      return candidate.status === this.props.type
+    })
+    return processed
   }
 
 
-  componentDidMount() {    
-    this.setupSpecificProcessedData()
+  componentDidMount() {
+    let data = JSON.parse(window.localStorage.getItem("data"))
+    let filtered = this.setupSpecificProcessedData()
+    this.setState({ candidates: data, filteredData: filtered, type: this.props.type   })
   }
 
-  componentDidUpdate(){
-    if (this.state.type == this.props.type){
-     return
+  componentDidUpdate() {
+    if (this.state.type == this.props.type) {
+      return
     }
-    this.setupSpecificProcessedData()
+    let filtered = this.setupSpecificProcessedData()
+    this.setState({ filteredData: filtered, type: this.props.type   })
   }
-
-
-
 
   searchFormControl(event) {
     this.setState({ search: event.target.value });
-    this.search(event)
   }
 
   search(event) {
-    let data = this.state.filteredData
+    let data = this.setupSpecificProcessedData()
     if (this.state.search == "") {
       this.setState({ filteredData: data })
     }
     event.preventDefault();
     console.log(this.state.search);
-
-
-
     let filteredData = data.filter(candidate => String((candidate.name)).toLocaleLowerCase().includes(String(this.state.search).toLocaleLowerCase()))
     this.setState({ filteredData: filteredData })
     console.log(filteredData);
